@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Deuda Libre - Gestión Inteligente de Deudas</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    /* Estilos Base */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
+    }
+    body {
+      line-height: 1.6;
+      color: #2d3748;
+    }
+    
+    /* Header Hero */
+    .hero {
+      background: linear-gradient(rgba(26, 54, 93, 0.9), rgba(26, 54, 93, 0.9)),
+                  url('https://images.unsplash.com/photo-1616512659455-111d3367649f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');
+      background-size: cover;
+      background-position: center;
+      color: white;
+      padding: 8rem 2rem 4rem;
+      text-align: center;
+      animation: fadeIn 1s ease-in;
+    }
+    .hero h1 {
+      font-size: 3.5rem;
+      margin-bottom: 1.5rem;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+    
+    /* Secciones */
+    .section {
+      padding: 5rem 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .section-title {
+      text-align: center;
+      font-size: 2.5rem;
+      margin-bottom: 3rem;
+      color: #1a365d;
+      position: relative;
+    }
+    .section-title::after {
+      content: '';
+      width: 100px;
+      height: 3px;
+      background: #2b6cb0;
+      position: absolute;
+      bottom: -15px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    
+    /* Tarjetas de características */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin: 3rem 0;
+    }
+    .feature-card {
+      padding: 2rem;
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease;
+      text-align: center;
+    }
+    .feature-card:hover {
+      transform: translateY(-10px);
+    }
+    .feature-icon {
+      font-size: 2.5rem;
+      color: #2b6cb0;
+      margin-bottom: 1rem;
+    }
+    
+    /* Testimonios - Slider */
+    .testimonials-slider {
+      overflow-x: auto; /* Permite desplazamiento manual */
+      scroll-behavior: smooth;
+      width: 100%;
+      margin-top: 3rem;
+    }
+    .testimonials-track {
+      display: flex;
+      gap: 2rem;
+      /* Se eliminaron las animaciones CSS para el auto-scroll
+         y se opta por JavaScript para combinar auto y desplazamiento manual */
+    }
+    .testimonial-card {
+      flex: 0 0 auto;
+      width: 300px;
+      background: white;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      position: relative;
+    }
+    .testimonial-card::before {
+      content: "“";
+      font-size: 4rem;
+      color: #2b6cb0;
+      position: absolute;
+      top: -20px;
+      left: 10px;
+      opacity: 0.3;
+    }
+    
+    /* CTA Section */
+    .cta-section {
+      background: linear-gradient(135deg, #1a365d, #2b6cb0);
+      color: white;
+      text-align: center;
+      padding: 4rem 2rem;
+      border-radius: 15px;
+      margin: 4rem 0;
+    }
+    
+    /* Plataformas */
+    .platforms {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin: 2rem 0;
+    }
+    .platform-card {
+      background: white;
+      padding: 1rem 2rem;
+      border-radius: 10px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    
+    /* Botones */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 1rem 2rem;
+      border-radius: 30px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      margin: 0.5rem;
+    }
+    .btn-primary {
+      background: #2b6cb0;
+      color: white;
+    }
+    .btn-primary:hover {
+      background: #1a4a8a;
+      transform: scale(1.05);
+    }
+    .btn-secondary {
+      background: white;
+      color: #2b6cb0;
+      border: 2px solid #2b6cb0;
+    }
+    .btn-secondary:hover {
+      background: #2b6cb0;
+      color: white;
+    }
+    
+    /* Footer */
+    footer {
+      background: #1a365d;
+      color: white;
+      padding: 4rem 2rem;
+      margin-top: 4rem;
+    }
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+    }
+    .social-links {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    .social-links a {
+      color: white;
+      font-size: 1.5rem;
+      transition: opacity 0.3s;
+    }
+    .social-links a:hover {
+      opacity: 0.8;
+    }
+    
+    /* Animaciones */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 2.5rem;
+      }
+      .section-title {
+        font-size: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Hero Section -->
+  <header class="hero">
+    <h1>Deuda Libre</h1>
+    <p class="lead">Transforma tu gestión financiera con inteligencia artificial</p>
+    <div style="margin: 2rem 0;">
+      <!-- El botón ahora redirige a "signup.html" -->
+      <a href="signup.html" class="btn btn-primary">
+        <i class="fas fa-rocket"></i> Comenzar Prueba Gratis
+      </a>
+    </div>
+    <img src="https://images.unsplash.com/photo-1554224154-26032ffc0d07?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" 
+         alt="Control financiero" 
+         style="width: 300px; border-radius: 15px; margin-top: 2rem; box-shadow: 0 10px 20px rgba(0,0,0,0.2);">
+  </header>
+  
+  <!-- Why Choose Section -->
+  <section class="section">
+    <h2 class="section-title">¿Por qué elegir Deuda Libre?</h2>
+    <div class="features-grid">
+      <div class="feature-card">
+        <i class="fas fa-brain feature-icon"></i>
+        <h3>Monitoreo Inteligente</h3>
+        <p>Registra ingresos, egresos y deudas en una interfaz intuitiva</p>
+      </div>
+      <!-- Se pueden agregar más tarjetas de características aquí -->
+    </div>
+  </section>
+  
+  <!-- Success Stories / Testimonios con Slider Automático y Desplazamiento Manual -->
+  <section class="section" style="background: #f8fafc;">
+    <h2 class="section-title">Historias de Éxito</h2>
+    <div class="testimonials-slider">
+      <div class="testimonials-track">
+        <!-- Grupo de 10 testimonios -->
+        <div class="testimonial-card">
+          <blockquote>"Antes usaba un cuaderno y me olvidaba de pagos. Con Deuda Libre, las alertas me avisan a tiempo."</blockquote>
+          <p style="margin-top: 1rem; color: #2b6cb0; font-weight: bold;">- Luis Alberto, Tienda de abarrotes</p>
+        </div>
+        <div class="testimonial-card">
+          <blockquote>"La interfaz es muy intuitiva y me ayuda a organizar mis finanzas de manera efectiva."</blockquote>
+          <p style="margin-top: 1rem; color: #2b6cb0; font-weight: bold;">- María Fernanda, Dueña de restaurante</p>
+        </div>
+        <div class="testimonial-card">
+          <blockquote>"Gracias a Deuda Libre, ahora tengo un control total sobre mis ingresos y egresos."</blockquote>
+          <p style="margin-top: 1rem; color: #2b6cb0; font-weight: bold;">- Carlos Pérez, Freelancer</p>
+        </div>
+        <div class="testimonial-card">
+          <blockquote>"El monitoreo en tiempo real me permite anticipar problemas financieros antes de que ocurran."</blockquote>
+          <p style="margin-top: 1rem; color: #2b6cb0; font-weight: bold;">- Ana Gómez, Administradora</p>
+        </div>
+        <div class="testimonial-card">
+          <blockquote>"Recomiendo Deuda Libre a todos mis amigos, es una herramienta imprescindible."</blockquote>
+          <p style="margin-top: 1rem; color: #2b6cb0; font-weight: bold;">- Jorge Castillo, Emprendedor</p>
+        </div>
+        <div class="testimonial-card">
+          <blockquote>"La gestión de deudas nunca fue tan fácil, la tecnología al servicio de las finanzas."</blockquote>
+          <p style="margin-top: 1rem; color: #2b6cb0; font-weight: bold;">- Elena Martínez, Consultora</p>
+        </div>
+        <div class="testimonial-card">
+          <blockquote>"La prueba gratuita me convenció, ahora no puedo imaginar mi negocio sin esta herramienta."</blockquote>
+          <p style="margin-top: 1rem; color: #2b6cb0; font-weight: bold;">- Ricardo López, Propietario de tienda</p>
+        </div>
+        <div class="testimonial-card">
+          <blockquote>"Cada función está diseñada pensando en el usuario, todo es muy práctico."</blockquote>
+          <p style="margin-top: 1rem; color: #2b6cb0; font-weight: bold;">- Laura Sánchez, Gerente</p>
+        </div>
+        <div class="testimonial-card">
+          <blockquote>"Deuda Libre transformó mi forma de gestionar mis finanzas, es simplemente revolucionario."</blockquote>
+          <p style="margin-top: 1rem; color: #2b6cb0; font-weight: bold;">- Andrés Ramírez, Inversionista</p>
+        </div>
+        <div class="testimonial-card">
+          <blockquote>"La ayuda y soporte técnico son excelentes, siempre responden rápido a cualquier duda."</blockquote>
+          <p style="margin-top: 1rem; color: #2b6cb0; font-weight: bold;">- Patricia Morales, Empresaria</p>
+        </div>
+        <!-- Duplicamos el grupo para lograr un desplazamiento continuo -->
+        <div class="testimonial-card">
+          <blockquote>"Antes usaba un cuaderno y me olvidaba de pagos. Con Deuda Libre, las alertas me avisan a tiempo."</blockquote>
+          <p style="margin-top: 1rem; color: #2b6cb0; font-weight: bold;">- Luis Alberto, Tienda de abarrotes</p>
+        </div>
+        <div class="testimonial-card">
+          <blockquote>"La interfaz es muy intuitiva y me ayuda a organizar mis finanzas de manera efectiva."</blockquote>
+          <p style="margin-top: 1rem; color: #2b6cb0; font-weight: bold;">- María Fernanda, Dueña de restaurante</p>
+        </div>
+        <div class="testimonial-card">
+          <blockquote>"Gracias a Deuda Libre, ahora tengo un control total sobre mis ingresos y egresos."</blockquote>
+          <p style="margin-top: 1rem; color: #2b6cb0; font-weight: bold;">- Carlos Pérez, Freelancer</p>
+        </div>
+        <div class="testimonial-card">
+          <blockquote>"El monitoreo en tiempo real me permite anticipar problemas financieros antes de que ocurran."</blockquote>
+          <p style="margin-top: 1rem; color: #2b6cb0; font-weight: bold;">- Ana Gómez, Administradora</p>
+        </div>
+        <div class="testimonial-card">
+          <blockquote>"Recomiendo Deuda Libre a todos mis amigos, es una herramienta imprescindible."</blockquote>
+          <p style="margin-top: 1rem; color: #2b6cb0; font-weight: bold;">- Jorge Castillo, Emprendedor</p>
+        </div>
+        <div class="testimonial-card">
+          <blockquote>"La gestión de deudas nunca fue tan fácil, la tecnología al servicio de las finanzas."</blockquote>
+          <p style="margin-top: 1rem; color: #2b6cb0; font-weight: bold;">- Elena Martínez, Consultora</p>
+        </div>
+        <div class="testimonial-card">
+          <blockquote>"La prueba gratuita me convenció, ahora no puedo imaginar mi negocio sin esta herramienta."</blockquote>
+          <p style="margin-top: 1rem; color: #2b6cb0; font-weight: bold;">- Ricardo López, Propietario de tienda</p>
+        </div>
+        <div class="testimonial-card">
+          <blockquote>"Cada función está diseñada pensando en el usuario, todo es muy práctico."</blockquote>
+          <p style="margin-top: 1rem; color: #2b6cb0; font-weight: bold;">- Laura Sánchez, Gerente</p>
+        </div>
+        <div class="testimonial-card">
+          <blockquote>"Deuda Libre transformó mi forma de gestionar mis finanzas, es simplemente revolucionario."</blockquote>
+          <p style="margin-top: 1rem; color: #2b6cb0; font-weight: bold;">- Andrés Ramírez, Inversionista</p>
+        </div>
+        <div class="testimonial-card">
+          <blockquote>"La ayuda y soporte técnico son excelentes, siempre responden rápido a cualquier duda."</blockquote>
+          <p style="margin-top: 1rem; color: #2b6cb0; font-weight: bold;">- Patricia Morales, Empresaria</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Free Trial CTA -->
+  <section class="section">
+    <div class="cta-section">
+      <h2>¡Prueba Gratis por 60 Días!</h2>
+      <p style="margin: 1.5rem 0;">Acceso total a todas las funciones premium</p>
+      <div class="platforms">
+        <div class="platform-card">
+          <i class="fab fa-android"></i>
+          <span>Android</span>
+        </div>
+        <!-- Se pueden agregar más plataformas aquí -->
+      </div>
+      <a href="#" class="btn btn-secondary">
+        <i class="fas fa-download"></i> Descargar Ahora
+      </a>
+    </div>
+  </section>
+  
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content">
+      <div>
+        <h3>Deuda Libre</h3>
+        <p>Simple, inteligente y diseñado para tu éxito</p>
+        <div class="social-links">
+          <a href="#"><i class="fab fa-facebook"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-linkedin"></i></a>
+        </div>
+      </div>
+      <div>
+        <h4>Contacto</h4>
+        <p>hola@deudalibre.com</p>
+        <p>+51 987 654 321</p>
+      </div>
+      <div>
+        <h4>Legal</h4>
+        <a href="#">Términos y condiciones</a><br>
+        <a href="#">Política de privacidad</a>
+      </div>
+    </div>
+    <p style="text-align: center; margin-top: 2rem;">© 2024 Deuda Libre. Todos los derechos reservados.</p>
+  </footer>
+  
+  <!-- JavaScript para auto-scroll con opción de desplazamiento manual -->
+  <script>
+    (function() {
+      const slider = document.querySelector('.testimonials-slider');
+      let scrollInterval;
+
+      function startAutoScroll() {
+        scrollInterval = setInterval(() => {
+          slider.scrollLeft += 1;
+          // Al llegar a la mitad (ya que se duplicó el grupo) se reinicia el scroll
+          if (slider.scrollLeft >= slider.scrollWidth / 2) {
+            slider.scrollLeft = 0;
+          }
+        }, 20); // Ajusta la velocidad cambiando el intervalo y/o el incremento
+      }
+
+      function stopAutoScroll() {
+        clearInterval(scrollInterval);
+      }
+
+      // Detenemos el auto-scroll cuando el usuario interactúa y lo reanudamos al salir
+      slider.addEventListener('mouseenter', stopAutoScroll);
+      slider.addEventListener('mouseleave', startAutoScroll);
+
+      // Iniciar auto-scroll
+      startAutoScroll();
+    })();
+  </script>
+</body>
+</html>
